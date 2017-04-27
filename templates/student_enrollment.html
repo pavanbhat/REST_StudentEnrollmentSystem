@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Enrollment</title>
+    <!-- Latest compiled and minified Bootstrap and jQuery -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+    {% block scripts %}
+    <script>
+        var get_students = function () {
+            $.get("/students", function (data) {
+                document.getElementById("summary").innerHTML = "<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Major ID</th></tr>";
+                var obj = $.parseJSON(data);
+                var val = "";
+                for (var i = 0; i < obj.length; i++) {
+                    val += "<tr class='stud_rows' id='s" + obj[i].student.id + "'><td>" + obj[i].student.id + " </td><td>" + obj[i].student.fname + " </td><td>" + obj[i].student.lname + "</td><td>" + obj[i].student.major_id + "</td></tr>";
+                }
+                $('#summary').append(val);
+            });
+        };
+
+        var get_courses = function () {
+            $.get("/courses", function (data) {
+                document.getElementById("summary").innerHTML = "<tr><th>ID</th><th>Course Name</th><th>Major ID</th></tr>";
+                var obj = $.parseJSON(data);
+                var val = "";
+                for (var i = 0; i < obj.length; i++) {
+                    val += "<tr class='course_rows' id='c" + obj[i].course.id + "'><td>" + obj[i].course.id + " </td><td>" + obj[i].course.cname + " </td><td>" + obj[i].course.major_id + "</td></tr>";
+                }
+                $('#summary').append(val);
+            });
+        };
+
+        var get_majors = function () {
+            $.get("/majors", function (data) {
+                document.getElementById("summary").innerHTML = "<tr><th>ID</th><th>Major Name</th></tr>";
+                var obj = $.parseJSON(data);
+                var val = "";
+                for (var i = 0; i < obj.length; i++) {
+                    val += "<tr class='major_rows' id='m" + obj[i].major.id + "'><td>" + obj[i].major.id + " </td><td>" + obj[i].major.mname + " </td></tr>";
+                }
+                $('#summary').append(val);
+            });
+        };
+
+        var get_courses_for_student = function () {
+            var stud_id = document.getElementById("cs_id").value;
+            $.get("/courses/students/" + stud_id, function (data) {
+                document.getElementById("summary").innerHTML = "<tr><th>ID</th><th>Course Name</th><th>Major ID</th></tr>";
+                var obj = $.parseJSON(data);
+                var val = "";
+                for (var i = 0; i < obj.length; i++) {
+                    val += "<tr class='course_rows' id='c" + obj[i].course.id + "'><td>" + obj[i].course.id + " </td><td>" + obj[i].course.cname + " </td><td>" + obj[i].course.major_id + "</td></tr>";
+                }
+                $('#summary').append(val);
+            });
+        };
+
+        var get_enrolled_students = function () {
+            var course_id = document.getElementById("sc_id").value;
+            $.get("/students/enrolled/" + course_id, function (data) {
+                document.getElementById("summary").innerHTML = "<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Major ID</th></tr>";
+                var obj = $.parseJSON(data);
+                var val = "";
+                for (var i = 0; i < obj.length; i++) {
+                    val += "<tr class='stud_rows' id='s" + obj[i].student.id + "'><td>" + obj[i].student.id + " </td><td>" + obj[i].student.fname + " </td><td>" + obj[i].student.lname + "</td><td>" + obj[i].student.major_id + "</td></tr>";
+                }
+                $('#summary').append(val);
+            });
+        };
+    </script>
+    {% endblock %}}
+</head>
+{% block content%}
+<nav class="nav nav-pills navbar navbar-inverse bg-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header" style="opacity: 0.78">
+            <a class="navbar-brand" href="http://127.0.0.1:5000" style="padding-right: 1em">
+                <span class="glyphicon glyphicon-knight" aria-hidden="true"></span>
+            </a>
+            <ul class="nav navbar-nav">
+                <li class="active" style="width: 7em"><a href="#" onclick="get_students()">Students</a></li>
+                <li class="active" style="width: 7em"><a href="#" onclick="get_courses()">Courses</a></li>
+                <li class="active" style="width: 7em"><a href="#" onclick="get_majors()">Majors</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class=".container">
+    <div class="row">
+        <div class="col-sm-2 col-md-2">
+            <div class="row">
+                <div class="thumbnail" style="opacity: 0.7">
+                    <div class="caption">
+                        <center>
+                            <h3 class="title">Enroll Student</h3>
+                            <p>Course ID: <input type="text" id="course_id"></p>
+                            <p>
+                                <a href="#prod1" class="btn btn-primary" role="button" onclick="add_product('prod1')">
+                                    Enroll
+                                </a>
+                            </p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="thumbnail" style="opacity: 0.7">
+                    <div class="caption">
+                        <center>
+                            <h3 class="title">Courses for Student</h3>
+                            <p>Student ID: <input type="text" id="cs_id"></p>
+                            <p>
+                                <a href="#prod1" class="btn btn-primary" role="button"
+                                   onclick="get_courses_for_student()">
+                                    GET
+                                </a>
+                            </p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="thumbnail" style="opacity: 0.7">
+                    <div class="caption">
+                        <center>
+                            <h3 class="title">Enrolled Students</h3>
+                            <p>Course ID: <input type="text" id="sc_id"></p>
+                            <p>
+                                <a href="#prod1" class="btn btn-primary" role="button"
+                                   onclick="get_enrolled_students()">
+                                    GET
+                                </a>
+                            </p>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10 col-md-10">
+            <div class="thumbnail" style="opacity: 0.7">
+                <legend id="shop_info"><strong>Tables Fetched:</strong></legend>
+                <div class="table-responsive">
+                    <table id="summary" class="table">
+                    </table>
+                </div>
+                <br>
+
+                <div class="error_messages">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div>
+                        <h4><strong>Error Messages:</strong></h4>
+                    </div>
+                    <ul class=flashes>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</html>
