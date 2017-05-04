@@ -1,35 +1,35 @@
 class ListOfMajors:
     '''
-
+    A class that stores a list of Major objects
     '''
     __slots__ = 'major_data'
 
     def __init__(self):
         '''
-
+        Default Constructor, creates a list called major_data
         '''
         self.major_data = []
 
     def get_major_data(self):
         '''
-
-        :return: 
+        Gets the Major information of all majors
+        :return: a list of Major information of all majors
         '''
         return self.major_data
 
     def set_major_data(self, major):
         '''
-
-        :param major: 
-        :return: 
+        Sets/Appends the list of major_data with a Major object
+        :param major: An object of class Major
+        :return: None
         '''
         self.major_data.append(major)
 
     def remove_major_data(self, major_id):
         '''
-
-        :param major_id: 
-        :return: 
+        Removes the major information corresponding to a given major with major ID
+        :param major_id: id of a given major to be removed from the list
+        :return: None
         '''
         try:
             if len(self.major_data) > 0:
@@ -42,7 +42,7 @@ class ListOfMajors:
 
     def remove_all_major_data(self):
         '''
-
-        :return: 
+        Removes all the elements from the list of Majors
+        :return: None
         '''
         self.major_data = []

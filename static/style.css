@@ -1,6 +1,7 @@
 body {
     background-image: url(images/black.jpg);
     color: black;
+    margin: 10px;
 }
 
 #summary {
