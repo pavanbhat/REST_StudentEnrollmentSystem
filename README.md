@@ -1,5 +1,5 @@
-# REST_StudentEnrollmentSystem
-A REST client for enrolling students in courses using the data access layer of the software stack.
+# Restful Student Enrollment System 
+A REST client for enrolling students in courses using the data access layer of the software stack. (<a href="#" > Check out the Documentation for more details!</a>)
 
 Functionality Included:
 1. Enrolling a student
