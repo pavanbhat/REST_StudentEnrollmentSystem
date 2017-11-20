@@ -8,4 +8,4 @@ Functionality Included:
 4. Looking up a course a student is enrolled in
 5. Looking up courses and its availability
 
-Tech Used: Python (Flask), MySQL (MariaDB), AWS - RDS, REST, cURL
+Tech Used: Python (Flask), MySQL (MariaDB), AWS - RDS, REST, cURL, HTML5, CSS3, Bootstrap 4, AJAX
